@@ -1,5 +1,5 @@
 export interface IDefault {
-  id: number;
-  title: string;
-  author: string;
+    id: number;
+    title: string;
+    author: string;
 }

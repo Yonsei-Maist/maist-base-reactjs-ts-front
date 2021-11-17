@@ -1,3 +1,3 @@
 export interface DefaultRequest {
-  value: string;
+    value: string;
 }

@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react';
 
 interface Props {}
 
 const defaultPage = (props: Props) => {
-  return <div></div>;
+    return <div></div>;
 };
 
 export default defaultPage;
