@@ -34,6 +34,7 @@ npm run build // build for production
 ## Author
 ```
 Chanwoo Gwon, Yonsei Univ. Researcher, since 2020.05 ~
+Phor Vicheka, Yonsei Univ. Researcher, since 2020.11 ~
 ```
 
 ## maintainer
