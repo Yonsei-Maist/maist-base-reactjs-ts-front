@@ -18,47 +18,50 @@ interface ReducerAction {
     data?: ResultData;
 }
 
-function reducer(state:ReducerState, action:ReducerAction): ReducerState {
+function reducer(state: ReducerState, action: ReducerAction): ReducerState {
     switch (action.type) {
         case 'LOADING':
             return {
                 loading: true,
                 data: undefined,
-                error: false
+                error: false,
             };
         case 'SUCCESS':
             return {
                 loading: false,
                 data: action.data,
-                error: false
+                error: false,
             };
         case 'ERROR':
             return {
                 loading: false,
-                error: true
+                error: true,
             };
         default:
             throw new Error(`Unhandled action type: ${action.type}`);
     }
 }
 
-function useAsync(callback: ()=>Promise<ResponseMessage>, deps: React.DependencyList = [], skip: boolean = false) {
+function useAsync(
+    callback: () => Promise<ResponseMessage>,
+    deps: React.DependencyList = [],
+    skip: boolean = false
+) {
     const [state, dispatch] = useReducer(reducer, {
         loading: false,
         data: undefined,
-        error: false
+        error: false,
     });
 
     const fetchData = async () => {
         dispatch({ type: 'LOADING' });
         try {
             const responseMessage = await callback();
-            if (responseMessage.result == "success")
+            if (responseMessage.result == 'success')
                 dispatch({ type: 'SUCCESS', data: responseMessage.data });
-            else
-                dispatch({ type: 'ERROR'});
+            else dispatch({ type: 'ERROR' });
         } catch (e) {
-            dispatch({ type: 'ERROR'});
+            dispatch({ type: 'ERROR' });
         }
     };
 

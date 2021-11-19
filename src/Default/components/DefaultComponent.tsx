@@ -1,23 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import internal from 'stream';
+import { useEffect, useState } from 'react';
 
-/**
- * Define props type
- */
-type DefaultComponentProps = {
+interface IDefaultComponentProps {
     props1: string;
     optional?: number;
     onClickListener: (event: Object) => void;
-};
+}
 
 /**
  * Define Defulat component
- * @param DefaultComponentProps 
- * @returns 
+ * @param DefaultComponentProps
+ * @returns
  */
-function DefaultComponent({ props1, optional, onClickListener }: DefaultComponentProps) {
-    /** Define state value */
-    const [value, setValue] = useState("init value");
+const DefaultComponent = ({ props1, optional, onClickListener }: IDefaultComponentProps) => {
+    /* Define state value */
+    const [value, setValue] = useState('init value');
 
     useEffect(() => {
         /**
@@ -27,7 +23,7 @@ function DefaultComponent({ props1, optional, onClickListener }: DefaultComponen
             /**
              * call component did unmount
              */
-        }
+        };
     }, [value]);
 
     return (
@@ -35,13 +31,6 @@ function DefaultComponent({ props1, optional, onClickListener }: DefaultComponen
             Hello, {props1}, {value}
         </div>
     );
-}
-
-/**
- * Set default props
- */
-DefaultComponent.defaultProps = {
-    props1: '!'
 };
 
 export default DefaultComponent;

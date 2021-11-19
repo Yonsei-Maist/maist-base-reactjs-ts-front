@@ -6,6 +6,4 @@ export interface ResponseMessage {
     errMessage?: string;
 }
 
-export interface ResultData {
-
-}
+export interface ResultData {}

@@ -1,38 +1,50 @@
 import './DefaultApp.css';
-import { connect, useSelector } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import * as defaultActions from './stores/actions/defaultAction';
 
-import { useEffect, useState } from 'react';
-import {ReduceState} from './stores/reducers';
-import { DefaultState } from './stores/reducers/defaultReducer';
+import {
+    useGetPostsQuery,
+    useGetPostsWithAutoRefreshQuery,
+} from './rtk/api/services/defaultService';
+import { useAppSelector } from './rtk/store';
 
-interface DefaultAppProps {
-    defaultSetting?: any,
-    DefaultActions: typeof defaultActions
-}
-
-function DefaultApp({defaultSetting, DefaultActions}: DefaultAppProps) {
-    const {success}: DefaultState = useSelector((state: ReduceState) => state.default);
-
-    useEffect(() => {
-        //DefaultActions.fetchDefault({value: "some value"});
-    })
+function DefaultApp() {
+    const config = useAppSelector((state) => state.config);
 
     return (
         <div className="App">
-            <button className="btn btn-success" onClick={()=> {defaultSetting.func();}}>call defaultSetting func</button>
-            {defaultSetting && <div>{defaultSetting.data}</div>}
-            {success && <div>Success !</div>}
+            <h3>App configuration initializing from index.html or server side:</h3>
+            {`baseUrl: ${config.baseUrl}`}
+            <br />
+            {`defaultSetting: ${JSON.stringify(config.defaultSetting)}`}
+
+            <h3>Default Service - Posts List:</h3>
+            <PostList />
         </div>
     );
 }
 
-export default connect(
-    (state: ReduceState) => ({
-        defaultSetting: state.config ? state.config.data : undefined // bind data to props
-    }),
-    (dispatch) => ({
-        DefaultActions: bindActionCreators(defaultActions, dispatch) // bind dispatch to props
-    })
-)(DefaultApp);
+const PostList = () => {
+    const { data: posts, isLoading, refetch } = useGetPostsQuery();
+
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
+
+    if (!posts) {
+        return <div>No posts :(</div>;
+    }
+
+    return (
+        <>
+            <ul>
+                {posts.map(({ id, title, author }) => (
+                    <li key={id}>{`Title: ${title} - Author: ${author}`}</li>
+                ))}
+            </ul>
+            <button className="btn btn-success" onClick={refetch}>
+                Refetch Data
+            </button>
+        </>
+    );
+};
+
+export default DefaultApp;
